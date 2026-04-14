@@ -1,4 +1,6 @@
 from .payment_frequency import PaymentFrequency
+ADMIN_PASSWORD = "admin123"
+
 class Mortgage():
     years_for_amortizing = [5,10,15,20,25,30]
 
@@ -7,20 +9,16 @@ class Mortgage():
     def __init__(self, loan_amount:float, annual_interest_rate:float,
                  amortization:int, frequency):
         
+        assert loan_amount > 0
+        
         self.__loan_amount = loan_amount
-        
-        if not isinstance(loan_amount,(float,int)):
-            raise TypeError("Loan amount must be a value of a numeric type")
-        if loan_amount <= 0:
-            raise ValueError("Loan Amount must be a value greater than zero")
-        
-        
         self.__annual_interest_rate = annual_interest_rate
-        if not isinstance(annual_interest_rate,(float,int)):
-            raise TypeError("Annual interest rate must be a value of a numeric type")
-        if annual_interest_rate <=0 or annual_interest_rate > 1:
-            raise ValueError("Annual interest rate must be a value greater than zero and less than or equal to 1")
-        
+        self.__amortization = amortization
+
+        if isinstance(frequency, str):
+            self.frequency = eval(f"PaymentFrequency.{frequency}")
+        else:
+            self.frequency = frequency
 
         
         
